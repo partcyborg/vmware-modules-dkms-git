@@ -1,22 +1,22 @@
 # Maintainer: partcyborg <me@partcyb.org>
 # Special thanks to mkubecek for creating the GitHub repository that this sources.
 
-pkgname=vmware-host-modules-dkms-git
+pkgname=vmware-modules-dkms-git
+_gitname=vmware-host-modules
 pkgver=1.0
-pkgrel=2
-pkgdesc="vmware-host-modules is a curated collection of patches to the propriatery vmware-host-modules kernel modules which come with vmware enabling them to successfully compile on any kernel version.  This package installs a dkms config to automatically build them at the appropriate tag for any given kernel version."
+pkgrel=3
+pkgdesc="${_gitname} is a collection of modified versions of the vmware kernel host kernel modules, making it possible to successfully build them against all modern kernel versions, something whch is frequently broken with the stock source bundled with vmware.  This package installs a dkms config that automatically builds the two modules vmmon.ko and vmnet.ko at the appropriate tag for all installed kernel version."
 arch=("any")
 license=("LGPL")
-url="https://github.com/mkubecek/vmware-host-modules"
+url="https://github.com/mkubecek/${_gitname}"
 options=()
-_dkmsname=vmware-host-modules
 install=${pkgname}.install
-makedepends=("dkms" "libsystemd" "git")
+makedepends=("dkms" "git")
+optdepends=("vmware-workstation: Required, but using the AUR package is optional")
 source=(
    "dkms.conf.in"
    "dkms.sh.in"
 )
-sha256sums=('SKIP' 'SKIP')
 sha256sums=(
    "57984b4a196e78f7ec0c2557c03810c8c3cf6ae393ae725b97b8ebebcb02e6a1"
    "c4d6489274c779e418a5fd4d200c85f24903c7f116d2a6ea457fbc54cdd4c7f1"
@@ -25,7 +25,7 @@ sha256sums=(
 _var_replace() {
    sed \
       -e "s/%PKGVER%/${pkgver}/" \
-      -e "s/%DKMSNAME%/${_dkmsname}/" \
+      -e "s/%DKMSNAME%/${_gitname}/" \
       "${srcdir}/$1" > "${srcdir}/$2"
 }
 

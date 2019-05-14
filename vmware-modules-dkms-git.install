@@ -14,13 +14,13 @@ pre_install() {
 pre_upgrade() {
    # Don't clone if this a reinstall
    # of the same version
-   [[ "$1" != "$2" ]] && _clone "$1"
+   [[ "${1//-*/}" == "${2//-*/}" ]] || _clone "$1"
 }
 
 post_upgrade() {
    # Don't remove if this a reinstall
    # of the same version
-   [[ "$1" != "$2" ]] && _remove "$2"
+   [[ "${1//-*/}" == "${2//-*/}" ]] || _remove "$2"
 }
 
 post_remove() {
